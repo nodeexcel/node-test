@@ -1,15 +1,14 @@
 const express = require('express')
 const app = express();
 app.use(express.json());
-const {sequelize} = require("./config/connection.js")
+require('dotenv').config();
 let bodyParser = require("body-parser");
 const {catalog, product} = require("./routes/index")
 
-const port = 3000;
+app.use(catalog);
+app.use(product);
 
-app.listen(port, ()=>{
-    console.log(`Server running on port ${port}`)
+app.listen(process.env.PORT, ()=>{
+    console.log(`Server running on port ${process.env.PORT}`)
 })
 
-app.use(catalog);
-app.use(product)

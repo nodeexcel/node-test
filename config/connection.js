@@ -1,9 +1,7 @@
 const { Sequelize } = require("sequelize");
-require('dotenv').config()
-console.log(process.env.database, process.env.user)
 var sequelize = new Sequelize(process.env.database, process.env.user,"", {
   host: process.env.host,
-  dialect: "mysql",
+  dialect: process.env.dialect,
   pool: {
     max: 5,
     min: 0,
@@ -14,10 +12,7 @@ var sequelize = new Sequelize(process.env.database, process.env.user,"", {
 
 (async () => {
     try {
-      await sequelize.authenticate();
-      console.log("connect to database");
-      console.log("connected!!!!!!!!!!");
-    
+      await sequelize.authenticate();    
     } catch (err) {
       console.log("an error occurred: ", err);
     }

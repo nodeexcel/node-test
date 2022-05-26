@@ -1,12 +1,11 @@
-const catalog = require("./Catalog");
-const user = require("./User");
-const asset = require("./Asset");
-const product = require("./Product")
-
+const {catalog} = require("./catalog");
+const asset = require("./asset");
+const product = require("./product")
+const {user} = require("./user");
 
 module.exports = {
-    catalog,
     user,
+    catalog,
+    product,
     asset,
-    product
 };

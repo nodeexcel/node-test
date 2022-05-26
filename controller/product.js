@@ -1,26 +1,26 @@
-const {sequelize} = require('../config/connection')
+const { sequelize } = require("../config/connection");
 var express = require("express");
-const { product } = require("../model");
-const { user } = require("../model");
-
-
+const { user } = require("../model/user");
 var app = express();
+const { validationResult } = require("express-validator")
 
 module.exports.buyProduct = async (req, res) => {
-    try {
-        let {id, address} = req.body;
-        let buyProduct = await user.findAll({ where: { address: address},include:"addressID" });
- 
-        res.send({
-            success : true,
-            data: buyProduct
-        })
+  try {
+    const validation = validationResult(req);
+
+    if(!validation.isEmpty()) {
+        res.status(400).send(validation);
     }
-    catch (error) {
-        console.log(error);
-        res.send({
-            success : "false",
-            errorMessage : error.errorMessage
-        })
-    }
-}
+
+    let data = await user.getUserData(req.body);
+    res.send({
+      success: true,
+      data: data,
+    });
+  } catch (error) {
+    res.send({
+      success: "false",
+      errorMessage: error.errorMessage,
+    });
+  }
+};

@@ -1,7 +1,7 @@
 const route = require('express').Router()
 const catalog = require('../controller/catalog')
+const validator = require('../middleware/validator')
 
-
-route.post('/catalog', catalog.create)
+route.post('/catalog', validator.catalogValidator, catalog.create)
 
 module.exports = route

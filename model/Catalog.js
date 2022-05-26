@@ -7,7 +7,7 @@ var catalog = sequelize.define(
     id: {
       type: Sequelize.INTEGER,
       autoIncrement: true,
-      primaryKey: true
+      primaryKey: true,
     },
     name: {
       type: Sequelize.STRING,
@@ -37,16 +37,36 @@ var catalog = sequelize.define(
       type: Sequelize.INTEGER,
     },
     catagory: {
-        type: Sequelize.INTEGER,
-      },
+      type: Sequelize.INTEGER,
+    },
   },
   {
     freezeTableName: true,
   }
 );
 
-
 catalog.sync();
 
+catalog.saveCatalogData = async (body) => {
+  let createCatalog = await catalog.create(body);
 
-module.exports = catalog;
+  let response = {
+    id: createCatalog.id,
+    name: createCatalog.name,
+    description: createCatalog.description ? createCatalog.description : null,
+    imageUrl: createCatalog.imageUrl ? createCatalog.imageUrl : null,
+    price: {
+      cost1: createCatalog.cost1,
+      cost2: createCatalog.cost2 ? createCatalog.cost2 : null,
+      cost3: createCatalog.cost3 ? createCatalog.cost3 : null,
+    },
+    req: {
+      req1: createCatalog.req1,
+      req2: createCatalog.req2 ? createCatalog.req2 : null,
+      req3: createCatalog.req3 ? createCatalog.req3 : null,
+    },
+  };
+  return response;
+};
+
+module.exports = { catalog };
